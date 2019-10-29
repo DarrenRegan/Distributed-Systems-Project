@@ -23,6 +23,13 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
         try {
             System.out.println("Doing some Validation: ");
             validatePassword = Passwords.isExpectedPassword(request.getPassword(), request.getSalt(), request.getHashedPassword());
+            System.out.println("\n Validation0" + validatePassword);
+
+            if(validatePassword == true){
+
+            }else {
+
+            }
 
         }catch (Exception e){
             e.printStackTrace();
@@ -45,6 +52,10 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
         System.out.println("Doing some Hashing: ");
         System.out.println("\n Salt: " + saltBS);
         System.out.println("\n Hashed PW:  " + hashedPWBS);
+
+        responseObserver.onNext(hashResponse.newBuilder().setUserId(request.getUserId()).setHashedPassword(hashedPWBS).setSalt(saltBS).build());
+        responseObserver.onCompleted();
+
 
     }
 }

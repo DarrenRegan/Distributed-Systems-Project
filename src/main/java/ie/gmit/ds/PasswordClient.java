@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 public class PasswordClient {
     private static final Logger logger = Logger.getLogger(PasswordClient.class.getName());
     private final ManagedChannel channel;
-    //private final PasswordServiceGrpc.PasswordServiceStub asyncUserService;
+    private final PasswordServiceGrpc.PasswordServiceStub asyncUserService;
     private final PasswordServiceGrpc.PasswordServiceBlockingStub syncPasswordService;
 
     /** Construct client for accessing HelloWorld server using the existing channel. */
@@ -23,6 +23,7 @@ public class PasswordClient {
                 .usePlaintext()
                 .build();
         syncPasswordService = PasswordServiceGrpc.newBlockingStub(channel);
+        asyncUserService = PasswordServiceGrpc.newStub(channel);
     }
 
     public void shutdown() throws InterruptedException {
@@ -31,12 +32,38 @@ public class PasswordClient {
 
     public void hashPassword(hashRequest hashReq) {
         //Receive Info
+        logger.info("Hash Password: " + hashReq);
+        hashResponse hashResponse = null;
 
         //Try to Hash the password given
+        try{
+            hashResponse = syncPasswordService.hash(hashReq);
+            logger.info(("Hash Password: " + hashResponse.getHashedPassword()));
+        }catch (StatusRuntimeException error){
+            System.out.println("Failed");
+            return;
+        }
+    }
+
+    private void validatePassword(){
 
     }
 
     public static void main(String[] args) throws Exception {
         PasswordClient client = new PasswordClient("localhost", 50051);
+
+        int userId = 1;
+        String password = "HELLO";
+
+        hashRequest hashReq = hashRequest.newBuilder()
+                .setPassword(password)
+                .setUserId(userId)
+                .build();
+
+        try{
+            client.hashPassword(hashReq);
+        }finally {
+            Thread.currentThread().join();
+        }
     }
 }
