@@ -39,22 +39,27 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
     @Override
     public void hash(hashRequest request, StreamObserver<hashResponse> responseObserver){
 
-        System.out.println("Doing some Hashing: ");
-        //Request password from user
-        salt = Passwords.getNextSalt();
-        password =  Passwords.hash(request.getPassword().toCharArray(), salt);
-        //Get userId and Salt
-        //Hash Password
-        ByteString saltBS = ByteString.copyFrom(salt);
-        ByteString hashedPWBS = ByteString.copyFrom(hashedPassword);
+        try{
+            System.out.println("Doing some Hashing: ");
+            //Request password from user
+            salt = Passwords.getNextSalt();
+            password =  Passwords.hash(request.getPassword().toCharArray(), salt);
+            //Get userId and Salt
+            //Hash Password
+            ByteString saltBS = ByteString.copyFrom(salt);
+            ByteString hashedPWBS = ByteString.copyFrom(hashedPassword);
 
-        //print info
-        System.out.println("Doing some Hashing: ");
-        System.out.println("\n Salt: " + saltBS);
-        System.out.println("\n Hashed PW:  " + hashedPWBS);
+            //print info
+            System.out.println("Doing some Hashing: ");
+            System.out.println("\n Salt: " + saltBS);
+            System.out.println("\n Hashed PW:  " + hashedPWBS);
 
-        responseObserver.onNext(hashResponse.newBuilder().setUserId(request.getUserId()).setHashedPassword(hashedPWBS).setSalt(saltBS).build());
-        responseObserver.onCompleted();
+            responseObserver.onNext(hashResponse.newBuilder().setUserId(request.getUserId()).setHashedPassword(hashedPWBS).setSalt(saltBS).build());
+            responseObserver.onCompleted();
+        }catch(RuntimeException e){
+            Logger.getLogger("Failed");
+        }
+
 
 
     }

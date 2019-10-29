@@ -50,10 +50,13 @@ public class PasswordClient {
     }
 
     public static void main(String[] args) throws Exception {
-        PasswordClient client = new PasswordClient("localhost", 50051);
+        //Localhost
+        //PasswordClient client = new PasswordClient("localhost", 50051);
+        //My IP Address 192.168.0.116
+        PasswordClient client = new PasswordClient("192.168.0.116", 50051);
 
         int userId = 1;
-        String password = "HELLO";
+        String password = "hidarrenreganhere";
 
         hashRequest hashReq = hashRequest.newBuilder()
                 .setPassword(password)
