@@ -1,5 +1,6 @@
 package ie.gmit.ds;
 
+import io.grpc.BindableService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
@@ -9,11 +10,11 @@ import java.util.logging.Logger;
 
 public class PasswordServer {
     private Server server;
-    private static final Logger logger = Logger.getLogger(HelloWorldServer.class.getName());
+    private static final Logger logger = Logger.getLogger(PasswordServer.class.getName());
 
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        final HelloWorldServer server = new HelloWorldServer();
+        final PasswordServer server = new PasswordServer();
         server.start();
         server.blockUntilShutdown();
     }
@@ -22,7 +23,7 @@ public class PasswordServer {
         /* The port on which the server should run */
         int port = 50051;
         server = ServerBuilder.forPort(port)
-                .addService(new HelloWorldServer.GreeterImpl())
+                .addService((BindableService) new PasswordServiceImpl())
                 .build()
                 .start();
         logger.info("Server started, listening on " + port);
@@ -43,13 +44,5 @@ public class PasswordServer {
         }
     }
 
-    static class GreeterImpl extends GreeterGrpc.GreeterImplBase {
 
-        @Override
-        public void sayHello(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
-            HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + req.getName()).build();
-            responseObserver.onNext(reply);
-            responseObserver.onCompleted();
-        }
-
-    }
+}

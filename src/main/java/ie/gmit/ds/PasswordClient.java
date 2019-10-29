@@ -9,12 +9,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PasswordClient {
-    private static final Logger logger = Logger.getLogger(HelloWorldClient.class.getName());
+    private static final Logger logger = Logger.getLogger(PasswordClient.class.getName());
     private final ManagedChannel channel;
     private final GreeterGrpc.GreeterBlockingStub greeterClientStub;
 
     /** Construct client for accessing HelloWorld server using the existing channel. */
-    public HelloWorldClient(String host, int port) {
+    public PasswordClient(String host, int port) {
         this.channel = ManagedChannelBuilder.forAddress(host, port)
                 // Channels are secure by default (via SSL/TLS). For the example we disable TLS to avoid
                 // needing certificates.
@@ -42,7 +42,7 @@ public class PasswordClient {
     }
 
     public static void main(String[] args) throws Exception {
-        HelloWorldClient client = new HelloWorldClient("localhost", 50051);
+        PasswordClient client = new PasswordClient("localhost", 50051);
         try {
             client.greet("world");
         } finally {
