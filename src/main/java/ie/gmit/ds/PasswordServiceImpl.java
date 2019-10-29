@@ -67,10 +67,14 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
             hashedPassword = Passwords.hash(passwordChar, salt);
 
             hashResponse hashReq = hashResponse.newBuilder()
+                    .setSalt(ByteString.copyFrom(salt))
+                    .setHashedPassword(ByteString.copyFrom(hashedPassword))
+                    .setUserId(userId)
                     .build();
 
-
-
+            validatePassword = Passwords.isExpectedPassword(passwordChar, salt, hashedPassword);
+            System.out.println("id" + userId + " " + password + " " + hashedPassword);
+            System.out.println("Validated? ");
 
 
         }catch(RuntimeException e){
