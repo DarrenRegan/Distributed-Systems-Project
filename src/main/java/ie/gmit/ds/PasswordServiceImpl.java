@@ -73,8 +73,8 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
                     .build();
 
             validatePassword = Passwords.isExpectedPassword(passwordChar, salt, hashedPassword);
-            System.out.println("id" + userId + " " + password + " " + hashedPassword);
-            System.out.println("Validated? ");
+            System.out.println("Your User ID is: " + userId + " Your Password is: " + password + "Your Hashed Password is: " + hashedPassword);
+            System.out.println("Validated? " + validatePassword);
 
 
         }catch(RuntimeException e){

@@ -56,7 +56,7 @@ public class PasswordClient {
         PasswordClient client = new PasswordClient("192.168.0.116", 50051);
 
         int userId = 1;
-        String password = "hidarrenreganhere";
+        String password = "MyNameIsDarrenReganTest";
 
         hashRequest hashReq = hashRequest.newBuilder()
                 .setPassword(password)
