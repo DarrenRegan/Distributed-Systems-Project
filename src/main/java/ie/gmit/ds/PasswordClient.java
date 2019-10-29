@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 public class PasswordClient {
     private static final Logger logger = Logger.getLogger(PasswordClient.class.getName());
     private final ManagedChannel channel;
-    private final PasswordServiceGrpc.PasswordServiceStub asyncUserService;
+    //private final PasswordServiceGrpc.PasswordServiceStub asyncUserService;
     private final PasswordServiceGrpc.PasswordServiceBlockingStub syncPasswordService;
 
     /** Construct client for accessing HelloWorld server using the existing channel. */

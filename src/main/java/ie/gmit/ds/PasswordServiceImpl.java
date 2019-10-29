@@ -1,6 +1,7 @@
 package ie.gmit.ds;
 
 import java.util.logging.Logger;
+import io.grpc.stub.StreamObserver;
 
 public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImplBase{
 

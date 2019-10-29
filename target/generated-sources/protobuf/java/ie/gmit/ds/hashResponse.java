@@ -5,29 +5,30 @@ package ie.gmit.ds;
 
 /**
  * <pre>
- * The response message containing the greetings
+ * The response message
  * </pre>
  *
- * Protobuf type {@code HelloReply}
+ * Protobuf type {@code ie.gmit.ds.hashResponse}
  */
-public  final class HelloReply extends
+public  final class hashResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:HelloReply)
-    HelloReplyOrBuilder {
+    // @@protoc_insertion_point(message_implements:ie.gmit.ds.hashResponse)
+    hashResponseOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use HelloReply.newBuilder() to construct.
-  private HelloReply(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use hashResponse.newBuilder() to construct.
+  private hashResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private HelloReply() {
-    message_ = "";
+  private hashResponse() {
+    hashedPassword_ = "";
+    salt_ = com.google.protobuf.ByteString.EMPTY;
   }
 
   @java.lang.Override
   @SuppressWarnings({"unused"})
   protected java.lang.Object newInstance(
       UnusedPrivateParameter unused) {
-    return new HelloReply();
+    return new hashResponse();
   }
 
   @java.lang.Override
@@ -35,7 +36,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private HelloReply(
+  private hashResponse(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -53,10 +54,20 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          case 10: {
+          case 8: {
+
+            userId_ = input.readInt32();
+            break;
+          }
+          case 18: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            message_ = s;
+            hashedPassword_ = s;
+            break;
+          }
+          case 26: {
+
+            salt_ = input.readBytes();
             break;
           }
           default: {
@@ -80,49 +91,67 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return ie.gmit.ds.HelloWorldProto.internal_static_HelloReply_descriptor;
+    return ie.gmit.ds.Password.internal_static_ie_gmit_ds_hashResponse_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return ie.gmit.ds.HelloWorldProto.internal_static_HelloReply_fieldAccessorTable
+    return ie.gmit.ds.Password.internal_static_ie_gmit_ds_hashResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            ie.gmit.ds.HelloReply.class, ie.gmit.ds.HelloReply.Builder.class);
+            ie.gmit.ds.hashResponse.class, ie.gmit.ds.hashResponse.Builder.class);
   }
 
-  public static final int MESSAGE_FIELD_NUMBER = 1;
-  private volatile java.lang.Object message_;
+  public static final int USERID_FIELD_NUMBER = 1;
+  private int userId_;
   /**
-   * <code>string message = 1;</code>
+   * <code>int32 userId = 1;</code>
    */
-  public java.lang.String getMessage() {
-    java.lang.Object ref = message_;
+  public int getUserId() {
+    return userId_;
+  }
+
+  public static final int HASHEDPASSWORD_FIELD_NUMBER = 2;
+  private volatile java.lang.Object hashedPassword_;
+  /**
+   * <code>string hashedPassword = 2;</code>
+   */
+  public java.lang.String getHashedPassword() {
+    java.lang.Object ref = hashedPassword_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      message_ = s;
+      hashedPassword_ = s;
       return s;
     }
   }
   /**
-   * <code>string message = 1;</code>
+   * <code>string hashedPassword = 2;</code>
    */
   public com.google.protobuf.ByteString
-      getMessageBytes() {
-    java.lang.Object ref = message_;
+      getHashedPasswordBytes() {
+    java.lang.Object ref = hashedPassword_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      message_ = b;
+      hashedPassword_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
     }
+  }
+
+  public static final int SALT_FIELD_NUMBER = 3;
+  private com.google.protobuf.ByteString salt_;
+  /**
+   * <code>bytes salt = 3;</code>
+   */
+  public com.google.protobuf.ByteString getSalt() {
+    return salt_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -139,8 +168,14 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getMessageBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, message_);
+    if (userId_ != 0) {
+      output.writeInt32(1, userId_);
+    }
+    if (!getHashedPasswordBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, hashedPassword_);
+    }
+    if (!salt_.isEmpty()) {
+      output.writeBytes(3, salt_);
     }
     unknownFields.writeTo(output);
   }
@@ -151,8 +186,16 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!getMessageBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, message_);
+    if (userId_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(1, userId_);
+    }
+    if (!getHashedPasswordBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, hashedPassword_);
+    }
+    if (!salt_.isEmpty()) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(3, salt_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -164,13 +207,17 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof ie.gmit.ds.HelloReply)) {
+    if (!(obj instanceof ie.gmit.ds.hashResponse)) {
       return super.equals(obj);
     }
-    ie.gmit.ds.HelloReply other = (ie.gmit.ds.HelloReply) obj;
+    ie.gmit.ds.hashResponse other = (ie.gmit.ds.hashResponse) obj;
 
-    if (!getMessage()
-        .equals(other.getMessage())) return false;
+    if (getUserId()
+        != other.getUserId()) return false;
+    if (!getHashedPassword()
+        .equals(other.getHashedPassword())) return false;
+    if (!getSalt()
+        .equals(other.getSalt())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -182,76 +229,80 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
-    hash = (53 * hash) + getMessage().hashCode();
+    hash = (37 * hash) + USERID_FIELD_NUMBER;
+    hash = (53 * hash) + getUserId();
+    hash = (37 * hash) + HASHEDPASSWORD_FIELD_NUMBER;
+    hash = (53 * hash) + getHashedPassword().hashCode();
+    hash = (37 * hash) + SALT_FIELD_NUMBER;
+    hash = (53 * hash) + getSalt().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static ie.gmit.ds.HelloReply parseFrom(
+  public static ie.gmit.ds.hashResponse parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static ie.gmit.ds.HelloReply parseFrom(
+  public static ie.gmit.ds.hashResponse parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static ie.gmit.ds.HelloReply parseFrom(
+  public static ie.gmit.ds.hashResponse parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static ie.gmit.ds.HelloReply parseFrom(
+  public static ie.gmit.ds.hashResponse parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static ie.gmit.ds.HelloReply parseFrom(byte[] data)
+  public static ie.gmit.ds.hashResponse parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static ie.gmit.ds.HelloReply parseFrom(
+  public static ie.gmit.ds.hashResponse parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static ie.gmit.ds.HelloReply parseFrom(java.io.InputStream input)
+  public static ie.gmit.ds.hashResponse parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static ie.gmit.ds.HelloReply parseFrom(
+  public static ie.gmit.ds.hashResponse parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static ie.gmit.ds.HelloReply parseDelimitedFrom(java.io.InputStream input)
+  public static ie.gmit.ds.hashResponse parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static ie.gmit.ds.HelloReply parseDelimitedFrom(
+  public static ie.gmit.ds.hashResponse parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static ie.gmit.ds.HelloReply parseFrom(
+  public static ie.gmit.ds.hashResponse parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static ie.gmit.ds.HelloReply parseFrom(
+  public static ie.gmit.ds.hashResponse parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -264,7 +315,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(ie.gmit.ds.HelloReply prototype) {
+  public static Builder newBuilder(ie.gmit.ds.hashResponse prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -281,29 +332,29 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * The response message containing the greetings
+   * The response message
    * </pre>
    *
-   * Protobuf type {@code HelloReply}
+   * Protobuf type {@code ie.gmit.ds.hashResponse}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:HelloReply)
-      ie.gmit.ds.HelloReplyOrBuilder {
+      // @@protoc_insertion_point(builder_implements:ie.gmit.ds.hashResponse)
+      ie.gmit.ds.hashResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return ie.gmit.ds.HelloWorldProto.internal_static_HelloReply_descriptor;
+      return ie.gmit.ds.Password.internal_static_ie_gmit_ds_hashResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return ie.gmit.ds.HelloWorldProto.internal_static_HelloReply_fieldAccessorTable
+      return ie.gmit.ds.Password.internal_static_ie_gmit_ds_hashResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              ie.gmit.ds.HelloReply.class, ie.gmit.ds.HelloReply.Builder.class);
+              ie.gmit.ds.hashResponse.class, ie.gmit.ds.hashResponse.Builder.class);
     }
 
-    // Construct using ie.gmit.ds.HelloReply.newBuilder()
+    // Construct using ie.gmit.ds.hashResponse.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -321,7 +372,11 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      message_ = "";
+      userId_ = 0;
+
+      hashedPassword_ = "";
+
+      salt_ = com.google.protobuf.ByteString.EMPTY;
 
       return this;
     }
@@ -329,17 +384,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return ie.gmit.ds.HelloWorldProto.internal_static_HelloReply_descriptor;
+      return ie.gmit.ds.Password.internal_static_ie_gmit_ds_hashResponse_descriptor;
     }
 
     @java.lang.Override
-    public ie.gmit.ds.HelloReply getDefaultInstanceForType() {
-      return ie.gmit.ds.HelloReply.getDefaultInstance();
+    public ie.gmit.ds.hashResponse getDefaultInstanceForType() {
+      return ie.gmit.ds.hashResponse.getDefaultInstance();
     }
 
     @java.lang.Override
-    public ie.gmit.ds.HelloReply build() {
-      ie.gmit.ds.HelloReply result = buildPartial();
+    public ie.gmit.ds.hashResponse build() {
+      ie.gmit.ds.hashResponse result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -347,9 +402,11 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public ie.gmit.ds.HelloReply buildPartial() {
-      ie.gmit.ds.HelloReply result = new ie.gmit.ds.HelloReply(this);
-      result.message_ = message_;
+    public ie.gmit.ds.hashResponse buildPartial() {
+      ie.gmit.ds.hashResponse result = new ie.gmit.ds.hashResponse(this);
+      result.userId_ = userId_;
+      result.hashedPassword_ = hashedPassword_;
+      result.salt_ = salt_;
       onBuilt();
       return result;
     }
@@ -388,19 +445,25 @@ private static final long serialVersionUID = 0L;
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof ie.gmit.ds.HelloReply) {
-        return mergeFrom((ie.gmit.ds.HelloReply)other);
+      if (other instanceof ie.gmit.ds.hashResponse) {
+        return mergeFrom((ie.gmit.ds.hashResponse)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(ie.gmit.ds.HelloReply other) {
-      if (other == ie.gmit.ds.HelloReply.getDefaultInstance()) return this;
-      if (!other.getMessage().isEmpty()) {
-        message_ = other.message_;
+    public Builder mergeFrom(ie.gmit.ds.hashResponse other) {
+      if (other == ie.gmit.ds.hashResponse.getDefaultInstance()) return this;
+      if (other.getUserId() != 0) {
+        setUserId(other.getUserId());
+      }
+      if (!other.getHashedPassword().isEmpty()) {
+        hashedPassword_ = other.hashedPassword_;
         onChanged();
+      }
+      if (other.getSalt() != com.google.protobuf.ByteString.EMPTY) {
+        setSalt(other.getSalt());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -417,11 +480,11 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      ie.gmit.ds.HelloReply parsedMessage = null;
+      ie.gmit.ds.hashResponse parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (ie.gmit.ds.HelloReply) e.getUnfinishedMessage();
+        parsedMessage = (ie.gmit.ds.hashResponse) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -431,71 +494,126 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object message_ = "";
+    private int userId_ ;
     /**
-     * <code>string message = 1;</code>
+     * <code>int32 userId = 1;</code>
      */
-    public java.lang.String getMessage() {
-      java.lang.Object ref = message_;
+    public int getUserId() {
+      return userId_;
+    }
+    /**
+     * <code>int32 userId = 1;</code>
+     */
+    public Builder setUserId(int value) {
+      
+      userId_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 userId = 1;</code>
+     */
+    public Builder clearUserId() {
+      
+      userId_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object hashedPassword_ = "";
+    /**
+     * <code>string hashedPassword = 2;</code>
+     */
+    public java.lang.String getHashedPassword() {
+      java.lang.Object ref = hashedPassword_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        message_ = s;
+        hashedPassword_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string message = 1;</code>
+     * <code>string hashedPassword = 2;</code>
      */
     public com.google.protobuf.ByteString
-        getMessageBytes() {
-      java.lang.Object ref = message_;
+        getHashedPasswordBytes() {
+      java.lang.Object ref = hashedPassword_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        message_ = b;
+        hashedPassword_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string message = 1;</code>
+     * <code>string hashedPassword = 2;</code>
      */
-    public Builder setMessage(
+    public Builder setHashedPassword(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      message_ = value;
+      hashedPassword_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string message = 1;</code>
+     * <code>string hashedPassword = 2;</code>
      */
-    public Builder clearMessage() {
+    public Builder clearHashedPassword() {
       
-      message_ = getDefaultInstance().getMessage();
+      hashedPassword_ = getDefaultInstance().getHashedPassword();
       onChanged();
       return this;
     }
     /**
-     * <code>string message = 1;</code>
+     * <code>string hashedPassword = 2;</code>
      */
-    public Builder setMessageBytes(
+    public Builder setHashedPasswordBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      message_ = value;
+      hashedPassword_ = value;
+      onChanged();
+      return this;
+    }
+
+    private com.google.protobuf.ByteString salt_ = com.google.protobuf.ByteString.EMPTY;
+    /**
+     * <code>bytes salt = 3;</code>
+     */
+    public com.google.protobuf.ByteString getSalt() {
+      return salt_;
+    }
+    /**
+     * <code>bytes salt = 3;</code>
+     */
+    public Builder setSalt(com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      salt_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>bytes salt = 3;</code>
+     */
+    public Builder clearSalt() {
+      
+      salt_ = getDefaultInstance().getSalt();
       onChanged();
       return this;
     }
@@ -512,41 +630,41 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:HelloReply)
+    // @@protoc_insertion_point(builder_scope:ie.gmit.ds.hashResponse)
   }
 
-  // @@protoc_insertion_point(class_scope:HelloReply)
-  private static final ie.gmit.ds.HelloReply DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:ie.gmit.ds.hashResponse)
+  private static final ie.gmit.ds.hashResponse DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new ie.gmit.ds.HelloReply();
+    DEFAULT_INSTANCE = new ie.gmit.ds.hashResponse();
   }
 
-  public static ie.gmit.ds.HelloReply getDefaultInstance() {
+  public static ie.gmit.ds.hashResponse getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<HelloReply>
-      PARSER = new com.google.protobuf.AbstractParser<HelloReply>() {
+  private static final com.google.protobuf.Parser<hashResponse>
+      PARSER = new com.google.protobuf.AbstractParser<hashResponse>() {
     @java.lang.Override
-    public HelloReply parsePartialFrom(
+    public hashResponse parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new HelloReply(input, extensionRegistry);
+      return new hashResponse(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<HelloReply> parser() {
+  public static com.google.protobuf.Parser<hashResponse> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<HelloReply> getParserForType() {
+  public com.google.protobuf.Parser<hashResponse> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public ie.gmit.ds.HelloReply getDefaultInstanceForType() {
+  public ie.gmit.ds.hashResponse getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 
