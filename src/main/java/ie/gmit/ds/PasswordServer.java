@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 public class PasswordServer {
     private Server server;
+    private static final int PORT = 50051;
     private static final Logger logger = Logger.getLogger(PasswordServer.class.getName());
 
 
@@ -21,12 +22,12 @@ public class PasswordServer {
 
     private void start() throws IOException {
         /* The port on which the server should run */
-        int port = 50051;
-        server = ServerBuilder.forPort(port)
+        //int port = 50051;
+        server = ServerBuilder.forPort(PORT)
                 .addService((BindableService) new PasswordServiceImpl())
                 .build()
                 .start();
-        logger.info("Server started, listening on " + port);
+        logger.info("Server started, listening on " + PORT);
     }
 
     private void stop() {
@@ -43,6 +44,5 @@ public class PasswordServer {
             server.awaitTermination();
         }
     }
-
 
 }

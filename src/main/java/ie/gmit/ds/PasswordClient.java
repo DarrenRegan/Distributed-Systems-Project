@@ -2,6 +2,7 @@ package ie.gmit.ds;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import com.google.protobuf.BoolValue;
 import io.grpc.StatusRuntimeException;
 
 import java.util.concurrent.TimeUnit;
@@ -13,7 +14,6 @@ public class PasswordClient {
     private final ManagedChannel channel;
     private final PasswordServiceGrpc.PasswordServiceStub asyncUserService;
     private final PasswordServiceGrpc.PasswordServiceBlockingStub syncPasswordService;
-    //private final GreeterGrpc.GreeterBlockingStub greeterClientStub;
 
     /** Construct client for accessing HelloWorld server using the existing channel. */
     public PasswordClient(String host, int port) {
@@ -27,6 +27,13 @@ public class PasswordClient {
 
     public void shutdown() throws InterruptedException {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+    }
+
+    public void hashPassword(hashRequest hashReq) {
+        //Receive Info
+
+        //Try to Hash the password given
+
     }
 
     public static void main(String[] args) throws Exception {
