@@ -1,5 +1,7 @@
 package ie.gmit.ds;
 
+import com.google.protobuf.ByteString;
+
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
@@ -70,6 +72,11 @@ public class Passwords {
         return Arrays.equals(pwdHash, expectedHash);
     }
 
+    public static boolean isExpectedPassword(String password, ByteString salt, ByteString expectedHash) {
+        byte[] pwdHash = hash(password.toCharArray(), salt.toByteArray());
+        return Arrays.equals(pwdHash, expectedHash.toByteArray());
+    }
+
     /**
      * Generates a random password of a given length, using letters and digits.
      *
@@ -90,4 +97,6 @@ public class Passwords {
         }
         return sb.toString();
     }
+
+
 }

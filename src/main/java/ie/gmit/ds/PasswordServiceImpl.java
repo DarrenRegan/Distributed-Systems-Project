@@ -1,6 +1,9 @@
 package ie.gmit.ds;
 
 import java.util.logging.Logger;
+
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.ByteString;
 import io.grpc.stub.StreamObserver;
 
 public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImplBase{
@@ -8,27 +11,40 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
     private static final Logger logger = Logger.getLogger(PasswordServiceImpl.class.getName());
 
     //Variables
-    String password;
-    int userId;
-    char passwordChar;
-    byte hashedPassword;
-    byte salt;
-    boolean validatePassword;
+    private byte[] password;
+    private int userId;
+    private char[] passwordChar;
+    private byte[] hashedPassword;
+    private byte[] salt;
+    private boolean validatePassword;
 
     @Override
-    public void validate(){
+    public void validate(validateRequest request, StreamObserver<BoolValue> responseObserver){
+        try {
+            System.out.println("Doing some Validation: ");
+            validatePassword = Passwords.isExpectedPassword(request.getPassword(), request.getSalt(), request.getHashedPassword());
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void hash(){
+    public void hash(hashRequest request, StreamObserver<hashResponse> responseObserver){
 
+        System.out.println("Doing some Hashing: ");
         //Request password from user
+        salt = Passwords.getNextSalt();
+        password =  Passwords.hash(request.getPassword().toCharArray(), salt);
         //Get userId and Salt
-
         //Hash Password
+        ByteString saltBS = ByteString.copyFrom(salt);
+        ByteString hashedPWBS = ByteString.copyFrom(hashedPassword);
 
         //print info
+        System.out.println("Doing some Hashing: ");
+        System.out.println("\n Salt: " + saltBS);
+        System.out.println("\n Hashed PW:  " + hashedPWBS);
 
     }
 }

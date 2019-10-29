@@ -24,7 +24,7 @@ public class PasswordServer {
         /* The port on which the server should run */
         //int port = 50051;
         server = ServerBuilder.forPort(PORT)
-                .addService((BindableService) new PasswordServiceImpl())
+                .addService(new PasswordServiceImpl())
                 .build()
                 .start();
         logger.info("Server started, listening on " + PORT);

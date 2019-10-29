@@ -20,7 +20,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private hashResponse() {
-    hashedPassword_ = "";
+    hashedPassword_ = com.google.protobuf.ByteString.EMPTY;
     salt_ = com.google.protobuf.ByteString.EMPTY;
   }
 
@@ -60,9 +60,8 @@ private static final long serialVersionUID = 0L;
             break;
           }
           case 18: {
-            java.lang.String s = input.readStringRequireUtf8();
 
-            hashedPassword_ = s;
+            hashedPassword_ = input.readBytes();
             break;
           }
           case 26: {
@@ -112,37 +111,12 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int HASHEDPASSWORD_FIELD_NUMBER = 2;
-  private volatile java.lang.Object hashedPassword_;
+  private com.google.protobuf.ByteString hashedPassword_;
   /**
-   * <code>string hashedPassword = 2;</code>
+   * <code>bytes hashedPassword = 2;</code>
    */
-  public java.lang.String getHashedPassword() {
-    java.lang.Object ref = hashedPassword_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      hashedPassword_ = s;
-      return s;
-    }
-  }
-  /**
-   * <code>string hashedPassword = 2;</code>
-   */
-  public com.google.protobuf.ByteString
-      getHashedPasswordBytes() {
-    java.lang.Object ref = hashedPassword_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      hashedPassword_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
+  public com.google.protobuf.ByteString getHashedPassword() {
+    return hashedPassword_;
   }
 
   public static final int SALT_FIELD_NUMBER = 3;
@@ -171,8 +145,8 @@ private static final long serialVersionUID = 0L;
     if (userId_ != 0) {
       output.writeInt32(1, userId_);
     }
-    if (!getHashedPasswordBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, hashedPassword_);
+    if (!hashedPassword_.isEmpty()) {
+      output.writeBytes(2, hashedPassword_);
     }
     if (!salt_.isEmpty()) {
       output.writeBytes(3, salt_);
@@ -190,8 +164,9 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(1, userId_);
     }
-    if (!getHashedPasswordBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, hashedPassword_);
+    if (!hashedPassword_.isEmpty()) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(2, hashedPassword_);
     }
     if (!salt_.isEmpty()) {
       size += com.google.protobuf.CodedOutputStream
@@ -374,7 +349,7 @@ private static final long serialVersionUID = 0L;
       super.clear();
       userId_ = 0;
 
-      hashedPassword_ = "";
+      hashedPassword_ = com.google.protobuf.ByteString.EMPTY;
 
       salt_ = com.google.protobuf.ByteString.EMPTY;
 
@@ -458,9 +433,8 @@ private static final long serialVersionUID = 0L;
       if (other.getUserId() != 0) {
         setUserId(other.getUserId());
       }
-      if (!other.getHashedPassword().isEmpty()) {
-        hashedPassword_ = other.hashedPassword_;
-        onChanged();
+      if (other.getHashedPassword() != com.google.protobuf.ByteString.EMPTY) {
+        setHashedPassword(other.getHashedPassword());
       }
       if (other.getSalt() != com.google.protobuf.ByteString.EMPTY) {
         setSalt(other.getSalt());
@@ -520,43 +494,17 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object hashedPassword_ = "";
+    private com.google.protobuf.ByteString hashedPassword_ = com.google.protobuf.ByteString.EMPTY;
     /**
-     * <code>string hashedPassword = 2;</code>
+     * <code>bytes hashedPassword = 2;</code>
      */
-    public java.lang.String getHashedPassword() {
-      java.lang.Object ref = hashedPassword_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        hashedPassword_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
+    public com.google.protobuf.ByteString getHashedPassword() {
+      return hashedPassword_;
     }
     /**
-     * <code>string hashedPassword = 2;</code>
+     * <code>bytes hashedPassword = 2;</code>
      */
-    public com.google.protobuf.ByteString
-        getHashedPasswordBytes() {
-      java.lang.Object ref = hashedPassword_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        hashedPassword_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>string hashedPassword = 2;</code>
-     */
-    public Builder setHashedPassword(
-        java.lang.String value) {
+    public Builder setHashedPassword(com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
@@ -566,25 +514,11 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>string hashedPassword = 2;</code>
+     * <code>bytes hashedPassword = 2;</code>
      */
     public Builder clearHashedPassword() {
       
       hashedPassword_ = getDefaultInstance().getHashedPassword();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string hashedPassword = 2;</code>
-     */
-    public Builder setHashedPasswordBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      hashedPassword_ = value;
       onChanged();
       return this;
     }
