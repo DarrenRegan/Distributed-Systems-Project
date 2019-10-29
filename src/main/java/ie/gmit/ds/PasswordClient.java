@@ -15,7 +15,7 @@ public class PasswordClient {
     private final PasswordServiceGrpc.PasswordServiceStub asyncUserService;
     private final PasswordServiceGrpc.PasswordServiceBlockingStub syncPasswordService;
 
-    /** Construct client for accessing HelloWorld server using the existing channel. */
+    /** Construct client for accessing PasswordServer server using the existing channel. */
     public PasswordClient(String host, int port) {
         this.channel = ManagedChannelBuilder.forAddress(host, port)
                 // Channels are secure by default (via SSL/TLS). For the example we disable TLS to avoid
@@ -39,7 +39,7 @@ public class PasswordClient {
         try{
             hashResponse = syncPasswordService.hash(hashReq);
             logger.info(("Hash Password: " + hashResponse.getHashedPassword()));
-        }catch (StatusRuntimeException error){
+        }catch (RuntimeException error){
             System.out.println("Failed");
             return;
         }
