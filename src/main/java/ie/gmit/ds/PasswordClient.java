@@ -11,7 +11,9 @@ import java.util.logging.Logger;
 public class PasswordClient {
     private static final Logger logger = Logger.getLogger(PasswordClient.class.getName());
     private final ManagedChannel channel;
-    private final GreeterGrpc.GreeterBlockingStub greeterClientStub;
+    private final PasswordServiceGrpc.PasswordServiceStub asyncUserService;
+    private final PasswordServiceGrpc.PasswordServiceBlockingStub syncPasswordService;
+    //private final GreeterGrpc.GreeterBlockingStub greeterClientStub;
 
     /** Construct client for accessing HelloWorld server using the existing channel. */
     public PasswordClient(String host, int port) {
@@ -20,33 +22,14 @@ public class PasswordClient {
                 // needing certificates.
                 .usePlaintext()
                 .build();
-        greeterClientStub = GreeterGrpc.newBlockingStub(channel);
+        syncPasswordService = PasswordServiceGrpc.newBlockingStub(channel);
     }
 
     public void shutdown() throws InterruptedException {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
-    /** Say hello to server. */
-    public void greet(String name) {
-        logger.info("Will try to greet " + name + " ...");
-        HelloRequest request = HelloRequest.newBuilder().setName(name).build();
-        HelloReply response;
-        try {
-            response = greeterClientStub.sayHello(request);
-        } catch (StatusRuntimeException e) {
-            logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
-            return;
-        }
-        logger.info("Greeting: " + response.getMessage());
-    }
-
     public static void main(String[] args) throws Exception {
         PasswordClient client = new PasswordClient("localhost", 50051);
-        try {
-            client.greet("world");
-        } finally {
-            client.shutdown();
-        }
     }
 }
