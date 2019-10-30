@@ -25,7 +25,7 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
         try {
             System.out.println("Doing some Validation: ");
             validatePassword = Passwords.isExpectedPassword(request.getPassword(), request.getSalt(), request.getHashedPassword());
-            System.out.println("\n Validation0" + validatePassword);
+            System.out.println("\n Validation" + validatePassword);
 
             if(validatePassword == true){
 
@@ -37,22 +37,7 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
             e.printStackTrace();
         }
     }
-    /*   System.out.println("Doing some Hashing: ");
-        //Request password from user
-        salt = Passwords.getNextSalt();
-        password =  Passwords.hash(request.getPassword().toCharArray(), salt);
-        //Get userId and Salt
-        //Hash Password
-        ByteString saltBS = ByteString.copyFrom(salt);
-        ByteString hashedPWBS = ByteString.copyFrom(hashedPassword);
 
-        //print info
-        System.out.println("Doing some Hashing: ");
-        System.out.println("\n Salt: " + saltBS);
-        System.out.println("\n Hashed PW:  " + hashedPWBS);
-
-        responseObserver.onNext(hashResponse.newBuilder().setUserId(request.getUserId()).setHashedPassword(hashedPWBS).setSalt(saltBS).build());
-        responseObserver.onCompleted();*/
     @Override
     public void hash(hashRequest request, StreamObserver<hashResponse> responseObserver){
 
@@ -73,9 +58,8 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
                     .build();
 
             validatePassword = Passwords.isExpectedPassword(passwordChar, salt, hashedPassword);
-            System.out.println("Your User ID is: " + userId + " Your Password is: " + password + "Your Hashed Password is: " + hashedPassword);
-            System.out.println("Validated? " + validatePassword);
-
+            System.out.println(" --- " + "ID: " + userId + " --- " + "Password: " + password + " --- " +  "HashPassword: " + hashedPassword + " --- " );
+            System.out.println(" --- " + "Validated? " + validatePassword + " --- ");
 
         }catch(RuntimeException e){
             Logger.getLogger("Failed");
