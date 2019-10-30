@@ -5,6 +5,7 @@ import io.grpc.ManagedChannelBuilder;
 import com.google.protobuf.BoolValue;
 import io.grpc.StatusRuntimeException;
 
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,9 +55,16 @@ public class PasswordClient {
         //PasswordClient client = new PasswordClient("localhost", 50051);
         //My IP Address 192.168.0.116
         PasswordClient client = new PasswordClient("192.168.0.116", 50051);
+        Scanner console = new Scanner(System.in);  // Create a Scanner object
 
-        int userId = 1;
-        String password = "MyNameIsDarrenReganTest";
+        //int userId = 1;
+        //String password = "MyNameIsDarrenReganTest";
+
+        //Add User input
+        System.out.print("\n Enter ID: ");
+        int userId = console.nextInt();
+        System.out.print("\n Enter Password ");
+        String password = console.next();
 
         hashRequest hashReq = hashRequest.newBuilder()
                 .setPassword(password)
@@ -65,6 +73,7 @@ public class PasswordClient {
 
         try{
             client.hashPassword(hashReq);
+            //client.validatePassword();
         }finally {
             Thread.currentThread().join();
         }
