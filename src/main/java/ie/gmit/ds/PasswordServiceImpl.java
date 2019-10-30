@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import com.google.protobuf.BoolValue;
 import com.google.protobuf.ByteString;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 
 import javax.print.attribute.HashPrintRequestAttributeSet;
@@ -28,9 +29,9 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
             System.out.println("\n Validation" + validatePassword);
 
             if(validatePassword == true){
-
+                System.out.println("Password is Valid ");
             }else {
-
+                System.out.println("Password is Invalid ");
             }
 
         }catch (Exception e){
@@ -57,12 +58,25 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
                     .setUserId(userId)
                     .build();
 
+            //Validation
             validatePassword = Passwords.isExpectedPassword(passwordChar, salt, hashedPassword);
-            System.out.println(" --- " + "ID: " + userId + " --- " + "Password: " + password + " --- " +  "HashPassword: " + hashedPassword + " --- " );
-            System.out.println(" --- " + "Validated? " + validatePassword + " --- ");
+            if(validatePassword == true){
+                System.out.println(" --- " + "ID: " + userId + " --- " + "Password: " + password + " --- " +  "HashPassword: " + hashedPassword + " --- " );
+                System.out.println(" --- " + "Validated? " + validatePassword + " --- ");
+            }else {
+                System.out.println("Password is Invalid ");
+            }
 
         }catch(RuntimeException e){
-            Logger.getLogger("Failed");
+            responseObserver.onError(Status.fromCode(Status.Code.FAILED_PRECONDITION)
+                .withCause(e)
+                .withDescription("BAD PASSWORD")
+                .asException());
+
+           /* Logger.getLogger("Failed" + Status.fromCode(Status.Code.FAILED_PRECONDITION)
+                                                        .withCause(e)
+                                                        .withDescription("BAD PASSWORD")
+                                                        .asException());*/
         }
     }
 }

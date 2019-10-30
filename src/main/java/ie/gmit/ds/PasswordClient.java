@@ -47,14 +47,13 @@ public class PasswordClient {
     }
 
     private void validatePassword(){
-
     }
 
     public static void main(String[] args) throws Exception {
         //Localhost
-        //PasswordClient client = new PasswordClient("localhost", 50051);
+        PasswordClient client = new PasswordClient("localhost", 50051);
         //My IP Address 192.168.0.116
-        PasswordClient client = new PasswordClient("192.168.0.116", 50051);
+        //PasswordClient client = new PasswordClient("192.168.0.116", 50051);
         Scanner console = new Scanner(System.in);  // Create a Scanner object
 
         //int userId = 1;
@@ -73,7 +72,7 @@ public class PasswordClient {
 
         try{
             client.hashPassword(hashReq);
-            //client.validatePassword();
+           // client.validatePassword();
         }finally {
             Thread.currentThread().join();
         }
