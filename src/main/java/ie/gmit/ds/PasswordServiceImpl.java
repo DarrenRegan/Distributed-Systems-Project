@@ -24,15 +24,22 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
     @Override
     public void validate(validateRequest request, StreamObserver<BoolValue> responseObserver){
         try {
+            //Returns Array of chars after converting String into Seq of characters
+            passwordChar = password.toCharArray();
             System.out.println("Doing some Validation: ");
+
+            //Get request Password Salt and Hashed password to validate
             validatePassword = Passwords.isExpectedPassword(request.getPassword(), request.getSalt(), request.getHashedPassword());
-            System.out.println("\n Validation" + validatePassword);
+            System.out.println("\n Validation: " + validatePassword);
 
             if(validatePassword == true){
                 System.out.println("Password is Valid ");
+                responseObserver.onNext(BoolValue.newBuilder().setValue(true).build());
             }else {
                 System.out.println("Password is Invalid ");
+                responseObserver.onNext(BoolValue.newBuilder().setValue(false).build());
             }
+            responseObserver.onCompleted();
 
         }catch (Exception e){
             e.printStackTrace();
