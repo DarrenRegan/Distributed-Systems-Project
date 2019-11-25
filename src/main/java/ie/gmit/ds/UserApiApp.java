@@ -1,5 +1,6 @@
 package ie.gmit.ds;
 
+import com.google.protobuf.Api;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 
@@ -11,8 +12,10 @@ public class UserApiApp extends Application<UserAPIConfig> {
 
     @Override
     public void run(UserAPIConfig userAPIConfig, Environment environment) throws Exception {
-        //Call userapiresouce
-        //Do a Health Check
+        final UserApiResource resource = new UserApiResource();
+        final ApiHealthCheck healthCheck = new ApiHealthCheck();
 
+        environment.healthChecks().register("template", healthCheck);
+        environment.jersey().register(resource);
     }
 }
