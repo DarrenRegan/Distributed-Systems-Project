@@ -38,6 +38,10 @@ public class UserApiResource {
     @Path("delete/{userId}")
     public Response deleteUser(@PathParam("UserId") Integer userId) {
         User user = usersMap.get(userId);
-
+        if (user == null)
+            return Response.status(Response.Status.NOT_FOUND).build();
+        else
+            usersMap.remove(userId);
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 }
