@@ -9,7 +9,9 @@ public class User {
     private String email;
     private String password;
 
-    public User(){ }
+    public User(){
+        // Needed for Jackson deserialisation
+    }
 
     public User(int userId, String userName, String email, String password){
         this.userId = userId;
