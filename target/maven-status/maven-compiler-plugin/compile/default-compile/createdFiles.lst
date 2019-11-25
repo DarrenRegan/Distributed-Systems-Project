@@ -1,5 +1,6 @@
 ie\gmit\ds\hashResponse$1.class
 ie\gmit\ds\PasswordClient.class
+ie\gmit\ds\User.class
 ie\gmit\ds\hashResponseOrBuilder.class
 ie\gmit\ds\hashResponse.class
 ie\gmit\ds\hashResponse$Builder.class
