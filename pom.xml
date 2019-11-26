@@ -106,7 +106,7 @@
                                         implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>ie.gmit.ds.ArtistApiApplication</mainClass>
+                                    <mainClass>ie.gmit.ds.UserApiApp</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -117,7 +117,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <finalName>ServiceCreate</finalName>
-                    <appendAssemblyId>false</appendAssemblyId>
+                    <appendAssemblyId>true</appendAssemblyId>
                     <archive>
                         <manifest>
                             <mainClass>com.svt.optimoo.App</mainClass>

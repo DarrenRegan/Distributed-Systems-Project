@@ -14,7 +14,9 @@ public class UserApiResource {
 
     public UserApiResource(){
         User test1 = new User(1, "Test", "darren123@gmail.com", "123darren123");
+        User test2 = new User(2, "Test2", "john123@gmail.com", "123john123");
         usersMap.put(test1.getUserId(), test1);
+        usersMap.put(test2.getUserId(), test2);
     }
 
     @GET
@@ -32,6 +34,7 @@ public class UserApiResource {
     @POST
     public Response createUser(User user){
         User user1 = usersMap.get(user.getUserId());
+        return null;
     }
 
     @DELETE
