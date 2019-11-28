@@ -3,14 +3,21 @@ package ie.gmit.ds;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Scanner;
 
 @Path("/users")
-@Produces(MediaType.APPLICATION_JSON)
+@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 public class UserApiResource {
     private HashMap<Integer, User> usersMap = new HashMap<>();
+    private PasswordClient client;
+    private PasswordServiceImpl clientImpl;
+    private Scanner console;
+    private int port;
 
     public UserApiResource(){
         User test1 = new User(1, "Test", "darren123@gmail.com", "123darren123");
@@ -25,26 +32,38 @@ public class UserApiResource {
     }
 
     @GET
-    @Path("{userID}")
+    @Path("{userId}")
     public User getUserById(@PathParam("userId") int userId){
         return usersMap.get(userId);
     }
 
-    @Path("/signUp")
     @POST
+    @Path("/addUser")
     public Response createUser(User user){
-        User user1 = usersMap.get(user.getUserId());
-        return null;
+
+        client.hashPassword(user.getUserId(),user.getPassword());
+
+        String hash = new String();
+        String salt = new String();
+        PasswordServiceImpl hashedUser = new PasswordServiceImpl(user.getUserId(), user.getUserName(), user.getEmail(), hash, salt);
+
+        usersMap.put(1, "Test3", "tom123@gmail.com", "123tom123");
+
+        String result = "Added User: " + user.getUserId();
+        return Response.status(200).entity(print).build();
     }
 
     @DELETE
     @Path("delete/{userId}")
-    public Response deleteUser(@PathParam("UserId") Integer userId) {
-        User user = usersMap.get(userId);
-        if (user == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
-        else
+    public Response deleteUser(@PathParam("userId") int userId) {
+        //User user = usersMap.get(userId);
+        if (usersMap.containsKey(userId)){
             usersMap.remove(userId);
-        return Response.status(Response.Status.NOT_FOUND).build();
+            String print = ("Removed User: " + userId + "from DB");
+            return Response.status(200).entity(print).build();
+        }else {
+            String print = ("User Does Not Exist: " + userId);
+            return Response.status(404).entity(print).build();
+        }
     }
 }
