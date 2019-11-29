@@ -4,6 +4,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import com.google.protobuf.BoolValue;
 import io.grpc.StatusRuntimeException;
+import io.grpc.stub.StreamObserver;
 
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -31,14 +32,13 @@ public class PasswordClient {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
-    public void hashPassword(hashRequest hashReq) {
+    public void hashPassword(hashRequest hashReq, StreamObserver<hashResponse> callback) {
         //Receive Info
         logger.info("Hash Password: " + hashReq);
         hashResponse hashResponse = null;
-
         //Try to Hash the password given
         try{
-            hashResponse = syncPasswordService.hash(hashReq);
+            hashResponse = syncPasswordService.hash(hashReq, callback);
             logger.info(("Hash Password: " + hashResponse.getHashedPassword()));
         }catch (RuntimeException error){
             System.out.println("Failed");
@@ -46,10 +46,19 @@ public class PasswordClient {
         }
     }
 
-    private void validatePassword(){
+    private boolean validatePassword(validateRequest valReq){
+        boolean valRes = false;
+
+        try{
+            valRes = syncPasswordService.validate(valReq).getValue();
+            return valRes;
+        }catch (StatusRuntimeException ex){
+            logger.log(Level.WARNING, "Failed", ex.getStatus());
+        }
+        return valRes;
     }
 
-    public static void main(String[] args) throws Exception {
+   /* public static void main(String[] args) throws Exception {
         //Localhost
         PasswordClient client = new PasswordClient("localhost", 50051);
         //My IP Address 192.168.0.116
@@ -76,5 +85,9 @@ public class PasswordClient {
         }finally {
             Thread.currentThread().join();
         }
-    }
+    }*/
 }
+
+
+
+

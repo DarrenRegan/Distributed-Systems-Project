@@ -39,11 +39,10 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
                 System.out.println("Password is Invalid ");
                 responseObserver.onNext(BoolValue.newBuilder().setValue(false).build());
             }
-            responseObserver.onCompleted();
-
         }catch (Exception e){
             e.printStackTrace();
         }
+        responseObserver.onCompleted();
     }
 
     @Override
@@ -73,17 +72,14 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
             }else {
                 System.out.println("Password is Invalid ");
             }
+            responseObserver.onNext(hashReq);
 
         }catch(RuntimeException e){
             responseObserver.onError(Status.fromCode(Status.Code.FAILED_PRECONDITION)
                 .withCause(e)
                 .withDescription("BAD PASSWORD")
                 .asException());
-
-           /* Logger.getLogger("Failed" + Status.fromCode(Status.Code.FAILED_PRECONDITION)
-                                                        .withCause(e)
-                                                        .withDescription("BAD PASSWORD")
-                                                        .asException());*/
         }
+        responseObserver.onCompleted();
     }
 }
