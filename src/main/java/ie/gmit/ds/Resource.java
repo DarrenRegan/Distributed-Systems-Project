@@ -57,7 +57,7 @@ public class Resource {
     }
 
     @PUT
-    @Path("/{userId")
+    @Path("/{userId}")
     public Response updateUser(@PathParam("userId") Integer id, User user){
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         User user1 = UserDatabase.getUser(user.getUserId());
