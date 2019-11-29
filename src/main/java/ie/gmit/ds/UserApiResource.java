@@ -3,6 +3,7 @@ package ie.gmit.ds;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.validation.Validator;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -20,12 +21,15 @@ public class UserApiResource {
     private Passwords clientPass;
     private Scanner console;
     private int port;
+    private final Validator validator;
 
-    public UserApiResource(){
-        User test1 = new User(1, "Test", "darren123@gmail.com", "123darren123");
+    public UserApiResource(Validator validator){
+
+        this.validator = validator;
+        /*User test1 = new User(1, "Test", "darren123@gmail.com", "123darren123");
         User test2 = new User(2, "Test2", "john123@gmail.com", "123john123");
         usersMap.put(test1.getUserId(), test1);
-        usersMap.put(test2.getUserId(), test2);
+        usersMap.put(test2.getUserId(), test2);*/
     }
 
     @GET

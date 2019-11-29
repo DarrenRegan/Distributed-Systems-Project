@@ -1,7 +1,5 @@
 package ie.gmit.ds;
 
-import io.grpc.stub.StreamObserver;
-
 import static io.grpc.MethodDescriptor.generateFullMethodName;
 import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
 import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
@@ -228,7 +226,7 @@ public final class PasswordServiceGrpc {
      * Sends
      * </pre>
      */
-    public ie.gmit.ds.hashResponse hash(hashRequest request, StreamObserver<hashResponse> callback) {
+    public ie.gmit.ds.hashResponse hash(ie.gmit.ds.hashRequest request) {
       return blockingUnaryCall(
           getChannel(), getHashMethod(), getCallOptions(), request);
     }
