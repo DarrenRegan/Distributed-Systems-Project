@@ -7,26 +7,21 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.validation.Validator;
-import java.util.Collection;
-import java.util.HashMap;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.Set;
+import javax.ws.rs.Produces;
+
+
 
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
-//@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 public class UserApiResource {
-    private HashMap<Integer, User> usersMap = new HashMap<>();
-    private PasswordClient client;
-    private PasswordServiceImpl clientImpl;
-    private Passwords clientPass;
-    private Scanner console;
-    private int port;
-    private final Validator validator;
     private static final Logger logger = Logger.getLogger(UserApiResource.class.getName());
+    private final Validator validator;
     PasswordClient pClient = new PasswordClient("localhost", 50551);
 
     public UserApiResource(Validator validator){
