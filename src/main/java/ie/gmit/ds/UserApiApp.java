@@ -15,7 +15,7 @@ public class UserApiApp extends Application<UserAPIConfig> {
     @Override
     public void run(UserAPIConfig userAPIConfig, Environment environment) throws Exception {
 
-        final UserApiResource resource = new UserApiResource((Validator) environment.getValidator());
+        final Resource resource = new Resource(environment.getValidator());
         final Login resource1 = new Login(environment.getValidator());
         final ApiHealthCheck healthCheck = new ApiHealthCheck();
 
