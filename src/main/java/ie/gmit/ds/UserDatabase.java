@@ -1,5 +1,7 @@
 package ie.gmit.ds;
 
+import io.grpc.stub.StreamObserver;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +27,60 @@ public class UserDatabase {
         return usersMap.get(id);
     }
 
-    
+    public static void createUser(final Integer id, final User user){
+
+        hashRequest HashRequest = hashRequest.newBuilder()
+                .setUserId(id)
+                .setPassword(user.getPassword())
+                .build();
+        try{
+            StreamObserver<hashResponse> responseObserver = new StreamObserver<hashResponse>() {
+                User newUser;
+
+                @Override
+                public void onNext(hashResponse hashRes) {
+                    newUser = new User(user.getUserId(), user.getUserName(), user.getEmail(), user.getPassword(), user.getHashedPassword(), user.getSalt());
+                }
+
+                @Override
+                public void onError(Throwable t) {
+                }
+
+                @Override
+                public void onCompleted() {
+                    usersMap.put(id, newUser);
+                }
+            };
+            pClient.hashPassword(HashRequest, responseObserver);
+        }finally {
+        }
+    }
+
+    public static void updateUser(Integer id, User user){
+        usersMap.put(id, user);
+    }
+
+    public static void deleteUser(Integer id){
+        usersMap.remove(id);
+    }
+
+    public static boolean login(Integer id, User user){
+        boolean valPass = false;
+
+        try{
+            User user1 = getUser(id);
+            validateRequest valReq = validateRequest.newBuilder()
+                    .setPassword(user.getPassword())
+                    .setHashedPassword(user1.getHashedPassword())
+                    .setSalt(user1.getSalt())
+                    .build();
+
+            valPass = pClient.validatePassword(valReq);
+
+            return valPass;
+        } finally {
+
+        }
+    }
 
 }

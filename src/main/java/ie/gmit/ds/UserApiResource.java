@@ -1,19 +1,23 @@
 package ie.gmit.ds;
 
+import com.google.protobuf.ByteString;
+import com.google.rpc.Status;
+import javax.validation.ConstraintViolation;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.validation.Validator;
+import java.util.Collection;
+import java.util.HashMap;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
+import java.util.logging.Logger;
 
 @Path("/users")
-@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+@Produces(MediaType.APPLICATION_JSON)
+//@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 public class UserApiResource {
     private HashMap<Integer, User> usersMap = new HashMap<>();
     private PasswordClient client;
@@ -22,70 +26,83 @@ public class UserApiResource {
     private Scanner console;
     private int port;
     private final Validator validator;
+    private static final Logger logger = Logger.getLogger(UserApiResource.class.getName());
+    PasswordClient pClient = new PasswordClient("localhost", 50551);
 
     public UserApiResource(Validator validator){
-
         this.validator = validator;
-        /*User test1 = new User(1, "Test", "darren123@gmail.com", "123darren123");
-        User test2 = new User(2, "Test2", "john123@gmail.com", "123john123");
-        usersMap.put(test1.getUserId(), test1);
-        usersMap.put(test2.getUserId(), test2);*/
     }
 
     @GET
-    public Collection<User> getUsers(){
-        return usersMap.values();
+    public Response getUsers(){
+        return Response.ok(UserDatabase.getUsers()).build();
     }
 
     @GET
-    @Path("{userId}")
-    public User getUserById(@PathParam("userId") int userId){
-        return usersMap.get(userId);
+    @Path("/{userId}")
+    public Response getUserById(@PathParam("userId") Integer userId){
+        User user = UserDatabase.getUser(userId);
+
+        if(user != null){
+            return Response.ok(user).build();
+        } else{
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 
     @PUT
-    @Path("update")
-    public Response updateUser(User user){
-
-        if(usersMap.containsKey(user.getUserId())){
-            usersMap.remove(user.getUserId());
-
-            //clientImpl.hash(user.getUserId(), user.getPassword());
-
-            String result = "User Updated: " + user.getUserId();
-            return Response.status(200).entity(result).build();
-
-        }else{
-            String print = "User Does Not Exist: " + user.getUserId();
-            return Response.status(404).entity(print).build();
+    @Path("/{userId")
+    public Response updateUser(@PathParam("userId") Integer id, User user){
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        User user1 = UserDatabase.getUser(user.getUserId());
+        if (violations.size() > 0 ){
+            ArrayList<String> validationMessages = new ArrayList<String>();
+            for (ConstraintViolation<User> violation : violations){
+                validationMessages.add(violation.getPropertyPath().toString() + ": " + violation.getMessage());
+            }
+            return Response.status(Response.Status.BAD_REQUEST).entity(validationMessages).build();
         }
+        if (user1 != null){
+            user.setUserId(id);
+            UserDatabase.updateUser(id, user);
+            return Response.ok(user).build();
+        }else{
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
     }
 
     @POST
     @Path("/addUser")
-    public Response createUser(User user) throws URISyntaxException {
+    public Response createUser(User user) throws Exception {
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
 
-        //String hash = new String(String.valueOf(client.hashCode()));
-        //String salt = new String(String.valueOf());
-        //PasswordServiceImpl hashedUser = new PasswordServiceImpl(user.getUserId(), user.getUserName(), user.getEmail(), hash, salt);
-        //usersMap.put();
-
-        String print = "Added User: " + user.getUserId();
-        return Response.created(new URI("/users/" + user.getUserId())).build();
-       // return Response.status(200).entity(print).build();
+        User user1 = UserDatabase.getUser(user.getUserId());
+        if(violations.size() > 0 ){
+            ArrayList<String> validationMessages = new ArrayList<String>();
+            for (ConstraintViolation<User> violation : violations) {
+                validationMessages.add(violation.getPropertyPath().toString() + ": " + violation.getMessage());
+            }
+            return Response.status(Response.Status.BAD_REQUEST).entity(validationMessages).build();
+        }
+        if (user1 == null) {
+            UserDatabase.createUser(user.getUserId(), user);
+            return Response.ok("User has been created! ").build();
+        }else{
+            return Response.status(Response.Status.NOT_FOUND).entity("User ID Already Exists, Try a new ID! ").build();
+        }
     }
 
     @DELETE
-    @Path("delete/{userId}")
-    public Response deleteUser(@PathParam("userId") Integer userId) {
-        //User user = usersMap.get(userId);
-        if (usersMap.containsKey(userId)){
-            usersMap.remove(userId);
-            String print = ("Removed User: " + userId + "from DB");
-            return Response.status(200).entity(print).build();
-        }else {
-            String print = ("User Does Not Exist: " + userId);
-            return Response.status(404).entity(print).build();
+    @Path("/{userId}")
+    public Response deleteUser(@PathParam("userId") Integer id) {
+        User user = UserDatabase.getUser(id);
+        if (user != null){
+            UserDatabase.deleteUser(id);
+            return Response.ok().build();
+        }else{
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
+
 }

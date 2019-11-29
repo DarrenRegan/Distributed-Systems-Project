@@ -33,20 +33,15 @@ public class PasswordClient {
     }
 
     public void hashPassword(hashRequest hashReq, StreamObserver<hashResponse> callback) {
-        //Receive Info
-        logger.info("Hash Password: " + hashReq);
-        hashResponse hashResponse = null;
-        //Try to Hash the password given
         try{
-            hashResponse = syncPasswordService.hash(hashReq, callback);
-            logger.info(("Hash Password: " + hashResponse.getHashedPassword()));
-        }catch (RuntimeException error){
-            System.out.println("Failed");
-            return;
+            asyncUserService.hash(hashReq, callback);
+        }catch (StatusRuntimeException ex){
+            logger.log(Level.WARNING, "Failed ", ex.getStatus());
         }
+
     }
 
-    private boolean validatePassword(validateRequest valReq){
+    public boolean validatePassword(validateRequest valReq){
         boolean valRes = false;
 
         try{

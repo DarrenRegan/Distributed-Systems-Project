@@ -2,16 +2,18 @@ package ie.gmit.ds;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.protobuf.ByteString;
-import org.glassfish.jersey.message.XmlHeader;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-public class User {
+@XmlRootElement
+public class User{
 
     @NotNull
     private int userId;
@@ -92,4 +94,5 @@ public class User {
     public void setSalt(ByteString salt){
         this.salt = salt;
     }
+
 }
