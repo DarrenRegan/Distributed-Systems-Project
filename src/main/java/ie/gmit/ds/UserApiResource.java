@@ -3,6 +3,7 @@ package ie.gmit.ds;
 import com.google.protobuf.ByteString;
 import com.google.rpc.Status;
 import javax.validation.ConstraintViolation;
+import javax.validation.
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -14,8 +15,6 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Set;
 import javax.ws.rs.Produces;
-
-
 
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
@@ -70,7 +69,7 @@ public class UserApiResource {
     @POST
     @Path("/addUser")
     public Response createUser(User user) throws Exception {
-        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        Set<ConstraintViolation<User>> violations = validator.v;
 
         User user1 = UserDatabase.getUser(user.getUserId());
         if(violations.size() > 0 ){
